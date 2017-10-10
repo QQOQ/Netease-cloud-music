@@ -8,6 +8,8 @@ http://43.248.102.117:8888
 
 ## Build Setup
 
+本地使用localhost，不能用127.0.0.1
+
 ``` bash
 # install dependencies
 npm install
