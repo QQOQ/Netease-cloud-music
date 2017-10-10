@@ -631,6 +631,15 @@
         const currentSong = $$('.js-smusic-song--item', DOM.scroll.list)[index];
         currentSong && utils.addClass(currentSong, 'active');
 
+        // 更新播放按钮 -- by萨萨
+        const BTN = DOM.btn.play;
+        utils.removeClass(BTN, 'smusic-music-pause');
+        utils.addClass(BTN, 'smusic-music-play');
+        BTN.setAttribute('title', '暂停');
+
+        // 增加唱片旋转效果 -- by 萨萨
+        utils.addClass(this.dom.song.thumbnail, 'on');
+
         // 根据接口链接获取网易云音乐链接 -- by萨萨
         const t = this;
         utils.http({
@@ -815,6 +824,8 @@
             const $currentSong = $('.js-smusic-song--item.active', this.dom.scroll.list);
             utils.removeClass($currentSong, 'pause');
             this.playList.length && this.audio.play();
+            // 增加唱片旋转效果 -- by 萨萨
+            utils.addClass(this.dom.song.thumbnail, 'on');
             callback && callback.call(this, this.playList[this.playIndex]);
         };
 
@@ -830,6 +841,8 @@
             utils.addClass($currentSong, 'pause');
             BTN.setAttribute('title', '播放');
             this.playList.length && this.audio.pause();
+            // 删除唱片旋转效果 -- by 萨萨
+            utils.removeClass(this.dom.song.thumbnail, 'on');
             callback && callback.call(this, this.playList[this.playIndex]);
         };
 

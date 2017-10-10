@@ -117,7 +117,7 @@
 				    this.smusic = SMusic(this.songList, {
 				    	volume: .8,
 				    	playMode: 1,
-				    	autoPlay: 1,
+				    	autoPlay: 0,
 						container : document.getElementById('my-music')
 					});
 					this.smusic.init()
@@ -242,4 +242,60 @@
         text-align: center;
         font-size: 12px;
     }
+    .smusic-music-thumbnail{
+    	position: relative;
+    }
+    .smusic-music-thumbnail:before{
+    	position: absolute;
+    	content: '';
+    	width: 40px;
+    	height: 40px;
+    	border-radius: 50%;
+    	background-color: #fff;
+    	left: 50%;
+    	top: 50%;
+    	margin-top: -20px;
+    	margin-left: -20px;
+    	box-shadow: 0px 3px 3px #c8c8c8 inset;
+    	z-index: 1;
+    }
+    .js-smusic-song--thumbnail{
+    	box-shadow: 0px 0px 3px 3px #bbb;
+    }
+    .js-smusic-song--thumbnail.on{
+    	-webkit-animation: rotating 5s linear infinite;
+    	animation: rotating 5s linear infinite;
+    }
+    @-webkit-keyframes rotating {
+		from{
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+	    	transform: rotate(0deg);
+		}
+		to{
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes rotating {
+	    from{
+	        -webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	    }
+	    to{
+	        -webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+	        transform: rotate(360deg);
+	    }
+	}
 </style>
