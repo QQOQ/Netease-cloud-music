@@ -3,13 +3,13 @@
 		<Row justify="center" type="flex" class="head">
 			<Col :xs="20" :sm="18" :md="16" :lg="9">
 				<h1 id="title">网易云音乐 <sub>by 萨萨</sub></h1>
-			    <AutoComplete v-model="searchQuery" icon="ios-search" placeholder="输入歌名进行搜索" size="large">
+			    <AutoComplete v-model="searchQuery" icon="ios-search" placeholder="输入歌名进行搜索" size="large" @on-select="selectMusic">
 			        <div class="demo-auto-complete-item" v-for="item in data4">
 			            <div class="demo-auto-complete-group">
 			                <span>{{ item.title }}</span>
 			                <a href="javascript:;" target="_blank">更多</a>
 			            </div>
-			            <Option v-for="option in item.children" :value="option.name" :key="option.name">
+			            <Option v-for="option in item.children" :value="option.id" :key="option.name">
 			                <span class="demo-auto-complete-title">{{ option.name }}</span>
 			                <span class="demo-auto-complete-count">{{ option.artists[0].name }}</span>
 			            </Option>
@@ -31,6 +31,7 @@
     	name: 'home',
         data () {
             return {
+            	smusic: '',
             	songList: [], //歌曲列表
             	apiURL: 'http://43.248.102.117:3000', //api接口
             	count: 0, // 搜索结果数量
@@ -106,7 +107,6 @@
 				    			title: musicList[x].name,
 				    			singer: musicList[x].ar[0].name,
 				    			audio: this.apiURL+'/music/url?id='+musicList[x].id,
-				    			//audio: 'http://m10.music.126.net/20171010122957/b625382cb98057628748a1e33414c893/ymusic/dc94/27ee/1dd0/2133c9c6738239dcf3adfae407b94fa0.mp3',
 				    			thumbnail: musicList[x].al.picUrl,
 				    			lyric: this.apiURL+'/lyric?id='+musicList[x].id
 				    		}
@@ -114,22 +114,22 @@
 				    }
 				    this.songList = newMusicList
 				    // 初始化播放器
-				    var smusic = SMusic(this.songList, {
+				    this.smusic = SMusic(this.songList, {
 				    	volume: .8,
 				    	playMode: 1,
 				    	autoPlay: 1,
 						container : document.getElementById('my-music')
 					});
-					smusic.init()
+					this.smusic.init()
 				    // console.log(newMusicList);
 				}, function(response){
 				    // 响应错误回调
 				    this.$Message.error('网络错误');
 				});
         	},
-        	// 根据歌曲ID获取播放链接
-        	getMusicUrlById(mid){
-        		this.$http.get(this.apiURL+'/music/url', {params:{id:mid}}).then(function(response){
+        	// 根据歌曲ID获取歌曲详情
+        	getMusicById(mid,funCallback){
+        		this.$http.get(this.apiURL+'/song/detail', {params:{ids:mid}}).then(function(response){
         			// 响应成功回调
         			// console.log(response)
         			var data = response.body
@@ -138,15 +138,33 @@
 				    	this.$Message.error(response.body.msg);
 				    	return
 				    }
-				    var result = data.result
-					this.count = result.songCount
-					var songList = result.songs
-					var a = this.data4[0]
-					a.children = songList
+				 	var result = data.songs[0]
+					funCallback(result)
 				}, function(response){
 				    // 响应错误回调
 				    this.$Message.error('网络错误');
 				});
+        	},
+        	// 搜索列表选中歌曲
+        	selectMusic(val){
+        		var t = this;
+        		this.getMusicById(val,function(data) {
+        			// console.log(data)
+        			// 将选中歌曲追加到列表
+        			var newMusic = [];
+        			newMusic = {
+		    			title: data.name,
+		    			singer: data.ar[0].name,
+		    			audio: t.apiURL+'/music/url?id='+data.id,
+		    			thumbnail: data.al.picUrl,
+		    			lyric: t.apiURL+'/lyric?id='+data.id
+		    		}
+		    		console.log(newMusic)
+		    		//var smusic = SMusic();
+		    		t.smusic.addSong(newMusic, function () {
+		                //newSong = null; //防止重复追加
+		            });
+        		})
         	},
         	expensiveOperation: _.debounce(function () {
 		      	this.isCalculating = true

@@ -772,7 +772,7 @@
                     singer: music.singer || '歌手名',
                     audio: music.audio,
                     thumbnail: music.thumbnail || thumbnailPlaceholder,
-                    lyric: music.lyric | ''
+                    lyric: music.lyric || '' //BUG，原 |
                 });
                 this.refreshList();
                 callback && callback();
