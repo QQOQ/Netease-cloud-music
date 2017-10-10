@@ -2,6 +2,10 @@
 
 > A Vue.js project
 
+## Demo
+
+http://43.248.102.117:8888
+
 ## Build Setup
 
 ``` bash
