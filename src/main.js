@@ -6,6 +6,9 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import VueResource from 'vue-resource'
+import '../static/js/jquery.barrager'
+// import '../static/js/mo'
+// import '../static/js/smusic'
 
 Vue.use(VueResource)
 Vue.use(iView)

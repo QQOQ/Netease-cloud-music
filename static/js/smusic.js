@@ -671,6 +671,11 @@
                 
             }
         })
+
+        // 弹幕
+        //console.log(song)
+        var s = new SmohanMusic;
+        s.danmu(song)
         // END
         // AUDIO.src = song.audio;
         // AUDIO.load();
@@ -689,6 +694,8 @@
         // __renderLyric.call(this);
         // callback && callback.call(this, song);
     };
+
+    var looper;
 
     /**
      * smusic
@@ -906,7 +913,7 @@
         };
 
         //初始化
-        init() {
+        init(callback) {
             const [config, create] = [this.config, _createDom(this.config)];
             this.smusic = create.element;
             this.smusicId = create.id;
@@ -948,8 +955,66 @@
             return null;
         }
 
+        /**
+         * 获取歌曲评论
+         * @param data
+         */
+        getSongComment(data,callback){
+            //var curSong = this.getCurrentInfo();
+            //console.log(data)
+            utils.http({
+                type: 'GET',
+                url: data.comment,
+                done: function (response) {
+                    //console.log(response)
+                    callback(data.songid, response);
+                },
+                fail: error => {
+                    
+                }
+            })
+        }
+
+        /**
+         * 弹幕
+         * @param data
+         */
+        danmu(data=''){
+            if(!data)
+                data = this.getCurrentInfo();
+            clearInterval(looper);
+            this.getSongComment(data,function(songid,response) {
+                if(response.code == 200){
+                    const comments = response.hotComments;
+                    const l = comments.length;
+                    const looper_time = 2*1000;
+                    var x = 0;
+                    //console.log(l)
+
+                    looper = setInterval(function() {
+                        const item={
+                            img:comments[x].user.avatarUrl, //图片 
+                            info:comments[x].content, //文字 
+                            href:'javascript:;', //链接 
+                            close:false, //显示关闭按钮 
+                            speed:25, //延迟,单位秒,默认8
+                            //bottom:70, //距离底部高度,单位px,默认随机 
+                            color:'#fff', //颜色,默认白色 
+                            old_ie_color:'#000000', //ie低版兼容色,不能与网页背景相同,默认黑色 
+                        }
+                        jQuery('body').barrager(item);
+                        x++;
+                        if(x - l == 0){
+                            x = 0;
+                        }
+                        //console.log(x)
+                    },looper_time);
+                }
+            })
+        }
+
         //析构
-        destroy() { };
+        destroy(data) { };
     }
 
     /**

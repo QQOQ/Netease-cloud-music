@@ -103,11 +103,13 @@
 				    if(musicList.length > 0){
 				    	for (var x in musicList){
 				    		newMusicList[x] = {
+				    			songid: musicList[x].id,
 				    			title: musicList[x].name,
 				    			singer: musicList[x].ar[0].name,
 				    			audio: this.apiURL+'/music/url?id='+musicList[x].id,
 				    			thumbnail: musicList[x].al.picUrl,
-				    			lyric: this.apiURL+'/lyric?id='+musicList[x].id
+				    			lyric: this.apiURL+'/lyric?id='+musicList[x].id,
+				    			comment: this.apiURL+'/comment/music?id='+musicList[x].id
 				    		}
 				    	}
 				    }
@@ -152,11 +154,13 @@
         			// 将选中歌曲追加到列表
         			var newMusic = [];
         			newMusic = {
+        				songid: data.id,
 		    			title: data.name,
 		    			singer: data.ar[0].name,
 		    			audio: t.apiURL+'/music/url?id='+data.id,
 		    			thumbnail: data.al.picUrl,
-		    			lyric: t.apiURL+'/lyric?id='+data.id
+		    			lyric: t.apiURL+'/lyric?id='+data.id,
+		    			comment: t.apiURL+'/comment/music?id='+data.id
 		    		}
 		    		// console.log(newMusic)
 		    		t.smusic.addSong(newMusic, function () {
