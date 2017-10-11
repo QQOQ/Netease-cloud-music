@@ -791,7 +791,9 @@
                     singer: music.singer || '歌手名',
                     audio: music.audio,
                     thumbnail: music.thumbnail || thumbnailPlaceholder,
-                    lyric: music.lyric || '' //BUG，原 |
+                    lyric: music.lyric || '', //BUG，原 |
+                    songid: music.songid,
+                    comment: music.comment
                 });
                 this.refreshList();
                 callback && callback();
