@@ -117,7 +117,7 @@
 				    this.smusic = SMusic(this.songList, {
 				    	volume: .8,
 				    	playMode: 1,
-				    	autoPlay: 0,
+				    	autoPlay: 1,
 						container : document.getElementById('my-music')
 					});
 					this.smusic.init()
@@ -159,10 +159,9 @@
 		    			thumbnail: data.al.picUrl,
 		    			lyric: t.apiURL+'/lyric?id='+data.id
 		    		}
-		    		console.log(newMusic)
-		    		//var smusic = SMusic();
+		    		// console.log(newMusic)
 		    		t.smusic.addSong(newMusic, function () {
-		                //newSong = null; //防止重复追加
+		                // newMusic = null; //防止重复追加
 		            });
         		})
         	},

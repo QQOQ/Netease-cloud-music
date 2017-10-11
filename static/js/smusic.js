@@ -202,13 +202,16 @@
      * @private
      */
     const _parseLyric = function (lyric) {
+        const lyricData = {}; //时间为key, 歌词做value
+        if(lyric.nolyric)
+            return lyricData;
         // 将歌词通过换行符转换为数组，
         // 每一行格式如 [00:00.00] 作曲 : 赵雷
         const lyricRows = lyric.lrc.lyric
             .replace(/(\[\d*:\d*((\.|:)\d*)*])/gm, '\n$1').trim() // 草，酷狗的歌词竟然是一坨，没有换行符，这里要专门处理
             .replace(/\\n/gm, '\n')
             .split('\n');
-        const lyricData = {}; //时间为key, 歌词做value
+        
         let i = 0,
             content, len = lyricRows.length;
         for (i; i < len; i++) {
@@ -809,7 +812,7 @@
          * @param callback
          */
         prev(callback) {
-            this.playByMode('next', callback);
+            this.playByMode('prev', callback);
         };
 
         /**
