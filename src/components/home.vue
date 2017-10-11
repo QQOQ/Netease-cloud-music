@@ -9,9 +9,9 @@
 			                <span>{{ item.title }}</span>
 			                <a href="javascript:;" target="_blank">更多</a>
 			            </div>
-			            <Option v-for="option in item.children" :value="option.id" :key="option.name">
+			            <Option v-for="option in item.children" :value="option.id" :key="option.id">
 			                <span class="demo-auto-complete-title">{{ option.name }}</span>
-			                <span class="demo-auto-complete-count">{{ option.artists[0].name }}</span>
+			                <span class="demo-auto-complete-count">{{ option.singer }}</span>
 			            </Option>
 			        </div>
 			        <a class="demo-auto-complete-more">共找到 {{ count }} 个结果</a>
@@ -80,9 +80,8 @@
 				    var result = data.result
 					this.count = result.songCount
 					var songList = result.songs
-					var a = this.data4[0]
-					a.children = songList
-					//console.log(songList)
+					this.data4[0].children = songList
+					// console.log(ns)
 				}, function(response){
 				    // 响应错误回调
 				    this.$Message.error('网络错误');
