@@ -11,7 +11,7 @@
 			            </div>
 			            <Option v-for="option in item.children" :value="option.id" :key="option.id">
 			                <span class="demo-auto-complete-title">{{ option.name }}</span>
-			                <span class="demo-auto-complete-count">{{ option.singer }}</span>
+			                <span class="demo-auto-complete-count">{{ option.artists[0].name }}</span>
 			            </Option>
 			        </div>
 			        <a class="demo-auto-complete-more">共找到 {{ count }} 个结果</a>
@@ -81,7 +81,7 @@
 					this.count = result.songCount
 					var songList = result.songs
 					this.data4[0].children = songList
-					// console.log(ns)
+					// console.log(songList)
 				}, function(response){
 				    // 响应错误回调
 				    this.$Message.error('网络错误');
